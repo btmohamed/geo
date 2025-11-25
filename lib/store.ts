@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { FRACTAL_CONSTRAINTS, DEFAULT_COLORS } from './constants';
 
 export interface FractalState {
   angle: number;
@@ -18,11 +19,11 @@ export interface FractalState {
 }
 
 export const useFractalStore = create<FractalState>((set, get) => ({
-  angle: 25,
-  scaleFactor: 0.7,
-  depth: 10,
-  color: '#39FF14',
-  colorEnd: '#FF4500',
+  angle: FRACTAL_CONSTRAINTS.ANGLE.DEFAULT,
+  scaleFactor: FRACTAL_CONSTRAINTS.SCALE.DEFAULT,
+  depth: FRACTAL_CONSTRAINTS.DEPTH.DEFAULT,
+  color: DEFAULT_COLORS.START,
+  colorEnd: DEFAULT_COLORS.END,
   showIntro: true,
   
   setAngle: (angle) => set({ angle }),
@@ -34,26 +35,50 @@ export const useFractalStore = create<FractalState>((set, get) => ({
   
   loadFromParams: (params) => {
     const updates: Partial<FractalState> = {};
-    
-    const angle = params.get('a');
-    if (angle) updates.angle = parseFloat(angle);
-    
-    const scale = params.get('s');
-    if (scale) updates.scaleFactor = parseFloat(scale);
-    
-    const depth = params.get('d');
-    if (depth) updates.depth = parseInt(depth);
-    
-    const color = params.get('c');
-    if (color) updates.color = `#${color}`;
-    
-    const colorEnd = params.get('c2');
-    if (colorEnd) updates.colorEnd = `#${colorEnd}`;
-    
+
+    // Validate and parse angle
+    const angleStr = params.get('a');
+    if (angleStr) {
+      const angle = parseFloat(angleStr);
+      if (!isNaN(angle) && angle >= FRACTAL_CONSTRAINTS.ANGLE.MIN && angle <= FRACTAL_CONSTRAINTS.ANGLE.MAX) {
+        updates.angle = angle;
+      }
+    }
+
+    // Validate and parse scale factor
+    const scaleStr = params.get('s');
+    if (scaleStr) {
+      const scale = parseFloat(scaleStr);
+      if (!isNaN(scale) && scale >= FRACTAL_CONSTRAINTS.SCALE.MIN && scale <= FRACTAL_CONSTRAINTS.SCALE.MAX) {
+        updates.scaleFactor = scale;
+      }
+    }
+
+    // Validate and parse depth
+    const depthStr = params.get('d');
+    if (depthStr) {
+      const depth = parseInt(depthStr, 10);
+      if (!isNaN(depth) && depth >= FRACTAL_CONSTRAINTS.DEPTH.MIN && depth <= FRACTAL_CONSTRAINTS.DEPTH.MAX) {
+        updates.depth = depth;
+      }
+    }
+
+    // Validate and parse color (hex format)
+    const colorStr = params.get('c');
+    if (colorStr && /^[0-9A-Fa-f]{6}$/.test(colorStr)) {
+      updates.color = `#${colorStr}`;
+    }
+
+    // Validate and parse end color (hex format)
+    const colorEndStr = params.get('c2');
+    if (colorEndStr && /^[0-9A-Fa-f]{6}$/.test(colorEndStr)) {
+      updates.colorEnd = `#${colorEndStr}`;
+    }
+
     if (Object.keys(updates).length > 0) {
       updates.showIntro = false;
     }
-    
+
     set(updates);
   },
 

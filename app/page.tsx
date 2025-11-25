@@ -15,23 +15,15 @@ function HomeContent() {
   const completeIntro = useFractalStore((state) => state.completeIntro);
 
   useEffect(() => {
-    console.log('[APP] HomeContent mounted');
-    console.log('[APP] Show intro:', showIntro);
-    console.log('[APP] URL params:', searchParams.toString());
-    
     if (searchParams.toString()) {
-      console.log('[APP] Loading state from URL params');
       loadFromParams(searchParams);
     }
   }, [searchParams, loadFromParams]);
 
   if (showIntro) {
-    console.log('[APP] Rendering intro');
     return <Intro onComplete={completeIntro} />;
   }
 
-  console.log('[APP] Rendering main app');
-  
   return (
     <main className="relative w-full h-screen overflow-hidden bg-[#050505]">
       {/* Header - Top Left */}

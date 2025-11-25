@@ -1,3 +1,5 @@
+import { CANVAS_CONSTANTS } from './constants';
+
 export interface FractalParams {
   angle: number;
   scaleFactor: number;
@@ -50,13 +52,13 @@ export function drawFractalTree(
   const colorFactor = currentDepth / params.depth;
   const currentColor = interpolateColor(params.color, params.colorEnd, colorFactor);
 
-  const alpha = 1 - (currentDepth / params.depth) * 0.3;
+  const alpha = 1 - (currentDepth / params.depth) * CANVAS_CONSTANTS.ALPHA_REDUCTION;
   ctx.strokeStyle = currentColor;
   ctx.globalAlpha = alpha;
-  ctx.lineWidth = Math.max(0.5, params.depth - currentDepth * 0.8);
-  
+  ctx.lineWidth = Math.max(CANVAS_CONSTANTS.MIN_LINE_WIDTH, params.depth - currentDepth * CANVAS_CONSTANTS.LINE_WIDTH_MULTIPLIER);
+
   // Enhanced glow effect
-  ctx.shadowBlur = 15 + (params.depth - currentDepth) * 2;
+  ctx.shadowBlur = CANVAS_CONSTANTS.SHADOW_BLUR_BASE + (params.depth - currentDepth) * CANVAS_CONSTANTS.SHADOW_BLUR_MULTIPLIER;
   ctx.shadowColor = currentColor;
   
   ctx.beginPath();
@@ -95,13 +97,13 @@ export function renderFractalTree(
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
 
-  ctx.fillStyle = '#0a0a0a';
+  ctx.fillStyle = CANVAS_CONSTANTS.BACKGROUND_COLOR;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   const startX = canvas.width / 2;
-  const startY = canvas.height - 50;
-  const initialLength = Math.min(canvas.width, canvas.height) / 6;
-  const initialAngle = -Math.PI / 2;
+  const startY = canvas.height - CANVAS_CONSTANTS.TREE_BASE_OFFSET;
+  const initialLength = Math.min(canvas.width, canvas.height) / CANVAS_CONSTANTS.INITIAL_LENGTH_DIVISOR;
+  const initialAngle = CANVAS_CONSTANTS.INITIAL_ANGLE;
 
   drawFractalTree(ctx, startX, startY, initialLength, initialAngle, params);
 }

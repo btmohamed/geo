@@ -6,15 +6,9 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {
-        'accent': '#00f0ff',
-        'accent-secondary': '#ff006e',
-        'bg-base': '#0a0a0a',
-        'bg-elevated': '#121212',
-        'text-secondary': '#a0a0a0',
-      },
       fontFamily: {
-        sans: ['Syne', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+        sans: ['"Geist Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
     },
   },

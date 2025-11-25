@@ -1,26 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, memo, useCallback } from 'react';
 import { useFractalStore } from '@/lib/store';
+import { UI_CONSTANTS } from '@/lib/constants';
 
-export default function ShareButton() {
+function ShareButton() {
   const getShareURL = useFractalStore((state) => state.getShareURL);
   const [copied, setCopied] = useState(false);
 
-  const handleShare = async () => {
+  const handleShare = useCallback(async () => {
     const url = getShareURL();
-    console.log('[SHARE] Generated URL:', url);
-    
+
     try {
       await navigator.clipboard.writeText(url);
-      console.log('[SHARE] URL copied to clipboard');
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setTimeout(() => setCopied(false), UI_CONSTANTS.SHARE_BUTTON_FEEDBACK_DURATION);
     } catch (err) {
-      console.error('[SHARE] Failed to copy:', err);
       alert('Failed to copy URL. Please try again.');
     }
-  };
+  }, [getShareURL]);
 
   return (
     <button
@@ -44,3 +42,5 @@ export default function ShareButton() {
     </button>
   );
 }
+
+export default memo(ShareButton);
