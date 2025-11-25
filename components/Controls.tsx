@@ -37,7 +37,15 @@ function Controls() {
   }), [color, colorEnd]);
 
   return (
-    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-10">
+    <div
+      style={{
+        position: 'fixed',
+        bottom: '32px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 10
+      }}
+    >
       <div
         className="bg-black/80 backdrop-blur-sm rounded-lg p-6 border border-[#39FF14]/30"
         role="region"
