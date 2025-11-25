@@ -27,7 +27,14 @@ function HomeContent() {
   return (
     <main className="relative w-full h-screen overflow-hidden bg-[#050505]">
       {/* Header - Top Left */}
-      <div className="fixed top-6 left-6 z-10">
+      <div
+        style={{
+          position: 'fixed',
+          top: '24px',
+          left: '24px',
+          zIndex: 10
+        }}
+      >
         <h1 className="text-2xl font-bold text-[#39FF14] mono" style={{ textShadow: '0 0 20px rgba(57, 255, 20, 0.6)' }}>
           fractal lab
         </h1>
@@ -37,7 +44,14 @@ function HomeContent() {
       </div>
 
       {/* Share button - Top Right */}
-      <div className="fixed top-6 right-6 z-10">
+      <div
+        style={{
+          position: 'fixed',
+          top: '24px',
+          right: '24px',
+          zIndex: 10
+        }}
+      >
         <ShareButton />
       </div>
 
@@ -48,7 +62,14 @@ function HomeContent() {
       <Controls />
 
       {/* Debug info - Bottom Left */}
-      <div className="fixed bottom-4 left-4 text-xs text-white/20 mono">
+      <div
+        className="text-xs text-white/20 mono"
+        style={{
+          position: 'fixed',
+          bottom: '16px',
+          left: '16px'
+        }}
+      >
         v1.0 • press F12 for console
       </div>
     </main>
