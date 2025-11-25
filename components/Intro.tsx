@@ -11,37 +11,36 @@ export default function Intro({ onComplete }: IntroProps) {
   const [points, setPoints] = useState<Array<{ x: number; y: number }>>([]);
 
   useEffect(() => {
-    console.log('[INTRO] Component mounted');
-    const hasSeenIntro = localStorage.getItem('hasSeenIntro');
-    console.log('[INTRO] Has seen intro:', hasSeenIntro);
-    if (hasSeenIntro) {
-      console.log('[INTRO] Skipping intro, going to main app');
-      onComplete();
+    try {
+      const hasSeenIntro = localStorage.getItem('hasSeenIntro');
+      if (hasSeenIntro) {
+        onComplete();
+      }
+    } catch (err) {
+      // LocalStorage not available, continue with intro
     }
   }, [onComplete]);
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    console.log('[INTRO] Click detected, step:', step, 'points:', points.length);
-    
     if (step === 0) {
-      console.log('[INTRO] Moving to step 1');
       setStep(1);
     } else if (step === 1 && points.length < 3) {
       const rect = e.currentTarget.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      
-      console.log('[INTRO] Adding point:', { x, y });
+
       const newPoints = [...points, { x, y }];
       setPoints(newPoints);
-      
+
       if (newPoints.length === 3) {
-        console.log('[INTRO] All points collected, showing final message');
         setTimeout(() => {
           setStep(2);
           setTimeout(() => {
-            console.log('[INTRO] Completing intro, going to main app');
-            localStorage.setItem('hasSeenIntro', 'true');
+            try {
+              localStorage.setItem('hasSeenIntro', 'true');
+            } catch (err) {
+              // LocalStorage not available, continue anyway
+            }
             onComplete();
           }, 2000);
         }, 500);
@@ -51,8 +50,11 @@ export default function Intro({ onComplete }: IntroProps) {
 
   const handleSkip = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    console.log('[INTRO] User clicked skip');
-    localStorage.setItem('hasSeenIntro', 'true');
+    try {
+      localStorage.setItem('hasSeenIntro', 'true');
+    } catch (err) {
+      // LocalStorage not available, continue anyway
+    }
     onComplete();
   };
 
