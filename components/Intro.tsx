@@ -203,20 +203,42 @@ export default function Intro({ onComplete }: IntroProps) {
 
   return (
     <div
-      className="fixed inset-0 bg-[#050505] z-50"
+      className="fixed inset-0 bg-[#050505]"
       onClick={handleClick}
-      style={{ width: '100vw', height: '100vh', cursor: 'crosshair' }}
+      style={{
+        width: '100vw',
+        height: '100vh',
+        cursor: 'crosshair',
+        zIndex: 50,
+        position: 'fixed',
+        top: 0,
+        left: 0
+      }}
     >
       {/* Skip button */}
       <button
         onClick={handleSkip}
-        className="fixed top-6 right-6 px-4 py-2 text-white/60 hover:text-[#39FF14] hover:bg-white/5 transition-all text-sm mono border border-white/10 rounded z-[60]"
+        className="px-4 py-2 text-white/60 hover:text-[#39FF14] hover:bg-white/5 transition-all text-sm mono border border-white/10 rounded"
+        style={{
+          position: 'fixed',
+          top: '24px',
+          right: '24px',
+          zIndex: 100
+        }}
       >
         skip intro →
       </button>
 
       {/* Progress indicator */}
-      <div className="fixed top-6 left-6 text-white/40 text-xs mono z-[60]">
+      <div
+        className="text-white/40 text-xs mono"
+        style={{
+          position: 'fixed',
+          top: '24px',
+          left: '24px',
+          zIndex: 100
+        }}
+      >
         {getActTitle()}
       </div>
 
@@ -225,24 +247,33 @@ export default function Intro({ onComplete }: IntroProps) {
         <>
           {/* Step 0: Everything starts at a point */}
           {step === 0 && (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center">
-                <div
-                  className="w-6 h-6 rounded-full mx-auto mb-6 animate-pulse"
-                  style={{
-                    backgroundColor: '#39FF14',
-                    boxShadow: '0 0 30px rgba(57, 255, 20, 0.8)'
-                  }}
-                />
-                <div className="text-2xl text-white mb-4 font-bold">
-                  everything starts at a point
-                </div>
-                <div className="text-white/50 text-base mb-2">
-                  this one is at (0, 0)
-                </div>
-                <div className="text-white/30 text-sm">
-                  click anywhere
-                </div>
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                textAlign: 'center',
+                width: '100%',
+                maxWidth: '600px'
+              }}
+            >
+              <div
+                className="w-6 h-6 rounded-full animate-pulse"
+                style={{
+                  backgroundColor: '#39FF14',
+                  boxShadow: '0 0 30px rgba(57, 255, 20, 0.8)',
+                  margin: '0 auto 24px auto'
+                }}
+              />
+              <div className="text-2xl text-white mb-4 font-bold">
+                everything starts at a point
+              </div>
+              <div className="text-white/50 text-base mb-2">
+                this one is at (0, 0)
+              </div>
+              <div className="text-white/30 text-sm">
+                click anywhere
               </div>
             </div>
           )}
@@ -256,12 +287,14 @@ export default function Intro({ onComplete }: IntroProps) {
                   left: points[0].x - 10,
                   top: points[0].y - 10,
                   backgroundColor: '#39FF14',
-                  boxShadow: '0 0 20px rgba(57, 255, 20, 0.6)'
+                  boxShadow: '0 0 20px rgba(57, 255, 20, 0.6)',
+                  position: 'absolute'
                 }}
               />
               <div
                 className="absolute text-sm text-[#39FF14] mono font-bold"
                 style={{
+                  position: 'absolute',
                   left: points[0].x + 15,
                   top: points[0].y - 8,
                   textShadow: '0 0 10px rgba(57, 255, 20, 0.8)'
@@ -269,14 +302,23 @@ export default function Intro({ onComplete }: IntroProps) {
               >
                 ({Math.round(points[0].x)}, {Math.round(points[0].y)})
               </div>
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="text-center">
-                  <div className="text-xl text-white mb-2">
-                    two numbers describe where it is
-                  </div>
-                  <div className="text-white/50 text-sm">
-                    click again
-                  </div>
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  textAlign: 'center',
+                  pointerEvents: 'none',
+                  width: '100%',
+                  maxWidth: '600px'
+                }}
+              >
+                <div className="text-xl text-white mb-2">
+                  two numbers describe where it is
+                </div>
+                <div className="text-white/50 text-sm">
+                  click again
                 </div>
               </div>
             </>
@@ -323,7 +365,16 @@ export default function Intro({ onComplete }: IntroProps) {
                 </div>
               ))}
               {points.length < 3 && (
-                <div className="fixed bottom-20 left-1/2 -translate-x-1/2 text-center pointer-events-none">
+                <div
+                  style={{
+                    position: 'fixed',
+                    bottom: '80px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    textAlign: 'center',
+                    pointerEvents: 'none'
+                  }}
+                >
                   <div className="text-lg text-white">
                     keep clicking
                   </div>
@@ -380,7 +431,16 @@ export default function Intro({ onComplete }: IntroProps) {
                 </div>
               ))}
 
-              <div className="fixed bottom-20 left-1/2 -translate-x-1/2 text-center pointer-events-none">
+              <div
+                style={{
+                  position: 'fixed',
+                  bottom: '80px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  textAlign: 'center',
+                  pointerEvents: 'none'
+                }}
+              >
                 <div className="text-xl text-white mb-2">
                   {points.length === 0 ? 'try to click inside the target' : 'close! try again'}
                 </div>
@@ -393,17 +453,26 @@ export default function Intro({ onComplete }: IntroProps) {
 
           {/* Step 4: Revelation */}
           {step === 4 && (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center max-w-lg">
-                <div className="text-3xl text-[#39FF14] mb-4 font-bold" style={{ textShadow: '0 0 20px rgba(57, 255, 20, 0.6)' }}>
-                  location IS numbers
-                </div>
-                <div className="text-xl text-white/70 mb-4">
-                  you can't describe where without them
-                </div>
-                <div className="text-white/40 text-sm">
-                  click to continue
-                </div>
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                textAlign: 'center',
+                width: '100%',
+                maxWidth: '600px',
+                padding: '0 20px'
+              }}
+            >
+              <div className="text-3xl text-[#39FF14] mb-4 font-bold" style={{ textShadow: '0 0 20px rgba(57, 255, 20, 0.6)' }}>
+                location IS numbers
+              </div>
+              <div className="text-xl text-white/70 mb-4">
+                you can't describe where without them
+              </div>
+              <div className="text-white/40 text-sm">
+                click to continue
               </div>
             </div>
           )}
@@ -463,7 +532,17 @@ export default function Intro({ onComplete }: IntroProps) {
                   ))}
                 </svg>
               )}
-              <div className="fixed bottom-20 left-1/2 -translate-x-1/2 text-center pointer-events-none max-w-lg">
+              <div
+                style={{
+                  position: 'fixed',
+                  bottom: '80px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  textAlign: 'center',
+                  pointerEvents: 'none',
+                  maxWidth: '600px'
+                }}
+              >
                 <div className="text-xl text-white mb-2">
                   place {6 - points.length} more dots on the circle
                 </div>
@@ -475,7 +554,7 @@ export default function Intro({ onComplete }: IntroProps) {
           )}
 
           {step === 1 && (
-            <div className="absolute inset-0 flex items-center justify-center">
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', width: '100%', maxWidth: '600px', padding: '0 20px' }}>
               <div className="text-center max-w-lg">
                 <div className="text-2xl text-white mb-4">
                   a circle isn't a shape you draw
@@ -497,7 +576,7 @@ export default function Intro({ onComplete }: IntroProps) {
           )}
 
           {step === 2 && (
-            <div className="absolute inset-0 flex items-center justify-center">
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', width: '100%', maxWidth: '600px', padding: '0 20px' }}>
               <div className="text-center max-w-lg">
                 <div className="text-2xl text-[#39FF14] mb-4 font-bold" style={{ textShadow: '0 0 20px rgba(57, 255, 20, 0.6)' }}>
                   shapes are rules about numbers
@@ -518,7 +597,7 @@ export default function Intro({ onComplete }: IntroProps) {
       {act === 3 && (
         <>
           {step === 0 && (
-            <div className="absolute inset-0 flex items-center justify-center">
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', width: '100%', maxWidth: '600px', padding: '0 20px' }}>
               <div className="text-center max-w-lg">
                 <div className="text-2xl text-white mb-4">
                   what if you did the same thing
@@ -544,7 +623,16 @@ export default function Intro({ onComplete }: IntroProps) {
                 height={600}
                 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
               />
-              <div className="fixed bottom-20 left-1/2 -translate-x-1/2 w-64 pointer-events-none">
+              <div
+                style={{
+                  position: 'fixed',
+                  bottom: '80px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  width: '256px',
+                  pointerEvents: 'none'
+                }}
+              >
                 <div className="text-center mb-4">
                   <div className="text-lg text-white mb-2">
                     drag to change the angle
@@ -562,9 +650,19 @@ export default function Intro({ onComplete }: IntroProps) {
                   onChange={(e) => setFractalAngle(parseFloat(e.target.value))}
                   className="w-full pointer-events-auto"
                   onClick={(e) => e.stopPropagation()}
+                  style={{ pointerEvents: 'auto' }}
                 />
               </div>
-              <div className="fixed top-32 left-1/2 -translate-x-1/2 text-center pointer-events-none">
+              <div
+                style={{
+                  position: 'fixed',
+                  top: '128px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  textAlign: 'center',
+                  pointerEvents: 'none'
+                }}
+              >
                 <div className="text-white/50 text-sm">
                   click when ready
                 </div>
@@ -573,7 +671,7 @@ export default function Intro({ onComplete }: IntroProps) {
           )}
 
           {step === 2 && (
-            <div className="absolute inset-0 flex items-center justify-center">
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', width: '100%', maxWidth: '600px', padding: '0 20px' }}>
               <div className="text-center max-w-lg">
                 <div className="text-3xl text-[#39FF14] mb-4 font-bold" style={{ textShadow: '0 0 20px rgba(57, 255, 20, 0.6)' }}>
                   recursion
@@ -604,7 +702,17 @@ export default function Intro({ onComplete }: IntroProps) {
                 height={600}
                 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
               />
-              <div className="fixed bottom-20 left-1/2 -translate-x-1/2 text-center pointer-events-auto" onClick={(e) => e.stopPropagation()}>
+              <div
+                style={{
+                  position: 'fixed',
+                  bottom: '80px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  textAlign: 'center',
+                  pointerEvents: 'auto'
+                }}
+                onClick={(e) => e.stopPropagation()}
+              >
                 <div className="text-xl text-white mb-4">
                   numbers describe position
                 </div>
@@ -636,7 +744,16 @@ export default function Intro({ onComplete }: IntroProps) {
                   each branch depth gets a different color
                 </div>
               </div>
-              <div className="fixed top-32 left-1/2 -translate-x-1/2 text-center pointer-events-none">
+              <div
+                style={{
+                  position: 'fixed',
+                  top: '128px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  textAlign: 'center',
+                  pointerEvents: 'none'
+                }}
+              >
                 <div className="text-white/50 text-sm">
                   click when ready
                 </div>
@@ -645,7 +762,7 @@ export default function Intro({ onComplete }: IntroProps) {
           )}
 
           {step === 1 && (
-            <div className="absolute inset-0 flex items-center justify-center">
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', width: '100%', maxWidth: '600px', padding: '0 20px' }}>
               <div className="text-center max-w-lg">
                 <div className="text-3xl text-[#39FF14] mb-4 font-bold" style={{ textShadow: '0 0 20px rgba(57, 255, 20, 0.6)' }}>
                   you're ready
