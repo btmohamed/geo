@@ -175,7 +175,7 @@ export default function Intro({ onComplete }: IntroProps) {
               numbers describing where things are
             </div>
             <div className="text-white/40 text-sm">
-              now let's make something beautiful with it...
+              fractals are next
             </div>
           </div>
         </div>
