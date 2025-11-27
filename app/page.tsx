@@ -25,21 +25,30 @@ function HomeContent() {
   }
 
   return (
-    <main className="relative w-full h-screen overflow-hidden bg-[#050505]">
+    <main className="relative w-full h-screen overflow-hidden" style={{ background: 'var(--bg-deep)' }}>
       {/* Header - Top Left */}
       <div
         style={{
           position: 'fixed',
-          top: '24px',
-          left: '24px',
+          top: '32px',
+          left: '32px',
           zIndex: 10
         }}
       >
-        <h1 className="text-2xl font-bold text-[#39FF14] mono" style={{ textShadow: '0 0 20px rgba(57, 255, 20, 0.6)' }}>
-          fractal lab
+        <h1
+          className="text-4xl font-light tracking-tight serif"
+          style={{
+            background: 'linear-gradient(135deg, var(--aurora-pink), var(--aurora-purple), var(--aurora-cyan))',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            marginBottom: '8px'
+          }}
+        >
+          Fractal Laboratory
         </h1>
-        <p className="text-sm text-white/40 mono mt-1">
-          drag sliders to morph the tree
+        <p className="text-sm text-white/50 mono tracking-wide" style={{ letterSpacing: '0.1em' }}>
+          MORPHOGENIC TREE SYNTHESIS
         </p>
       </div>
 
@@ -47,8 +56,8 @@ function HomeContent() {
       <div
         style={{
           position: 'fixed',
-          top: '24px',
-          right: '24px',
+          top: '32px',
+          right: '32px',
           zIndex: 10
         }}
       >
@@ -63,14 +72,15 @@ function HomeContent() {
 
       {/* Debug info - Bottom Left */}
       <div
-        className="text-xs text-white/20 mono"
+        className="text-xs text-white/30 mono tracking-wider"
         style={{
           position: 'fixed',
-          bottom: '16px',
-          left: '16px'
+          bottom: '24px',
+          left: '24px',
+          letterSpacing: '0.15em'
         }}
       >
-        v1.0 • press F12 for console
+        LAB v1.0 • CONSOLE: F12
       </div>
     </main>
   );
@@ -79,8 +89,33 @@ function HomeContent() {
 export default function Home() {
   return (
     <Suspense fallback={
-      <div className="fixed inset-0 bg-[#050505] flex items-center justify-center">
-        <div className="text-[#39FF14] mono">loading...</div>
+      <div className="fixed inset-0 flex items-center justify-center" style={{ background: 'var(--bg-deep)' }}>
+        <div className="text-center">
+          <div
+            className="text-2xl mono font-light tracking-widest mb-4"
+            style={{
+              background: 'linear-gradient(135deg, var(--aurora-pink), var(--aurora-purple))',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}
+          >
+            INITIALIZING
+          </div>
+          <div className="flex gap-1.5 justify-center">
+            {[0, 1, 2].map((i) => (
+              <div
+                key={i}
+                className="w-2 h-2 rounded-full"
+                style={{
+                  background: 'var(--aurora-purple)',
+                  animation: `pulse 1.4s ease-in-out ${i * 0.2}s infinite`,
+                  boxShadow: '0 0 10px var(--aurora-purple)'
+                }}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     }>
       <HomeContent />

@@ -21,8 +21,8 @@ export default function Intro({ onComplete }: IntroProps) {
   const [circleCenter, setCircleCenter] = useState<Point>({ x: 0, y: 0 });
   const [circleRadius, setCircleRadius] = useState<number>(0);
   const [fractalAngle, setFractalAngle] = useState(25);
-  const [color1, setColor1] = useState('#39FF14');
-  const [color2, setColor2] = useState('#FF4500');
+  const [color1, setColor1] = useState('#ff6ff2');
+  const [color2, setColor2] = useState('#00f5d4');
 
   useEffect(() => {
     try {
@@ -164,7 +164,6 @@ export default function Intro({ onComplete }: IntroProps) {
     const y2 = y + length * Math.sin((angle * Math.PI) / 180);
 
     const gradient = ctx.createLinearGradient(x, y, x2, y2);
-    const ratio = depth / maxDepth;
     gradient.addColorStop(0, color1);
     gradient.addColorStop(1, color2);
 
@@ -194,20 +193,29 @@ export default function Intro({ onComplete }: IntroProps) {
 
   const getActTitle = () => {
     switch (act) {
-      case 1: return "act 1: numbers → location";
-      case 2: return "act 2: shapes are rules";
-      case 3: return "act 3: repetition = complexity";
-      case 4: return "act 4: color = another dimension";
+      case 1: return "ACT 1: NUMBERS → LOCATION";
+      case 2: return "ACT 2: SHAPES ARE RULES";
+      case 3: return "ACT 3: REPETITION = COMPLEXITY";
+      case 4: return "ACT 4: COLOR = ANOTHER DIMENSION";
     }
   };
 
+  const pointStyle = (point: Point, index: number = 0) => ({
+    left: point.x - 12,
+    top: point.y - 12,
+    background: 'radial-gradient(circle, var(--aurora-pink), var(--aurora-purple))',
+    boxShadow: '0 0 25px rgba(255, 111, 242, 0.7), 0 0 50px rgba(157, 78, 221, 0.3)',
+    border: '2px solid rgba(255, 255, 255, 0.3)'
+  });
+
   return (
     <div
-      className="fixed inset-0 bg-[#050505]"
+      className="fixed inset-0"
       onClick={handleClick}
       style={{
         width: '100vw',
         height: '100vh',
+        background: 'var(--bg-deep)',
         cursor: 'crosshair',
         zIndex: 50,
         position: 'fixed',
@@ -218,25 +226,31 @@ export default function Intro({ onComplete }: IntroProps) {
       {/* Skip button */}
       <button
         onClick={handleSkip}
-        className="px-4 py-2 text-white/60 hover:text-[#39FF14] hover:bg-white/5 transition-all text-sm mono border border-white/10 rounded"
+        className="px-5 py-2.5 backdrop-blur-md border-2 mono font-medium text-xs rounded-lg transition-all"
         style={{
           position: 'fixed',
-          top: '24px',
-          right: '24px',
-          zIndex: 100
+          top: '32px',
+          right: '32px',
+          zIndex: 100,
+          background: 'rgba(255, 111, 242, 0.1)',
+          borderColor: 'rgba(255, 111, 242, 0.3)',
+          color: 'var(--aurora-pink)',
+          letterSpacing: '0.1em'
         }}
       >
-        skip intro →
+        SKIP INTRO →
       </button>
 
       {/* Progress indicator */}
       <div
-        className="text-white/40 text-xs mono"
+        className="text-xs mono tracking-widest"
         style={{
           position: 'fixed',
-          top: '24px',
-          left: '24px',
-          zIndex: 100
+          top: '32px',
+          left: '32px',
+          zIndex: 100,
+          color: 'var(--aurora-cyan)',
+          letterSpacing: '0.15em'
         }}
       >
         {getActTitle()}
@@ -259,221 +273,107 @@ export default function Intro({ onComplete }: IntroProps) {
               }}
             >
               <div
-                className="w-6 h-6 rounded-full animate-pulse"
+                className="w-8 h-8 rounded-full animate-pulse"
                 style={{
-                  backgroundColor: '#39FF14',
-                  boxShadow: '0 0 30px rgba(57, 255, 20, 0.8)',
-                  margin: '0 auto 24px auto'
+                  background: 'radial-gradient(circle, var(--aurora-pink), var(--aurora-purple))',
+                  boxShadow: '0 0 40px rgba(255, 111, 242, 0.8), 0 0 80px rgba(157, 78, 221, 0.4)',
+                  margin: '0 auto 32px auto'
                 }}
               />
-              <div className="text-2xl text-white mb-4 font-bold">
+              <div className="text-3xl mb-4 font-light serif" style={{ color: 'var(--text-primary)' }}>
                 everything starts at a point
               </div>
-              <div className="text-white/50 text-base mb-2">
+              <div className="text-white/60 text-base mb-3 mono tracking-wide">
                 this one is at (0, 0)
               </div>
-              <div className="text-white/30 text-sm">
+              <div className="text-white/40 text-sm serif italic">
                 click anywhere
               </div>
             </div>
           )}
 
-          {/* Step 1: First point clicked */}
-          {step === 1 && points.length === 1 && (
+          {/* Step 1-4: Point interactions */}
+          {step >= 1 && (
             <>
-              <div
-                className="absolute w-5 h-5 rounded-full"
-                style={{
-                  left: points[0].x - 10,
-                  top: points[0].y - 10,
-                  backgroundColor: '#39FF14',
-                  boxShadow: '0 0 20px rgba(57, 255, 20, 0.6)',
-                  position: 'absolute'
-                }}
-              />
-              <div
-                className="absolute text-sm text-[#39FF14] mono font-bold"
-                style={{
-                  position: 'absolute',
-                  left: points[0].x + 15,
-                  top: points[0].y - 8,
-                  textShadow: '0 0 10px rgba(57, 255, 20, 0.8)'
-                }}
-              >
-                ({Math.round(points[0].x)}, {Math.round(points[0].y)})
-              </div>
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  textAlign: 'center',
-                  pointerEvents: 'none',
-                  width: '100%',
-                  maxWidth: '600px'
-                }}
-              >
-                <div className="text-xl text-white mb-2">
-                  two numbers describe where it is
-                </div>
-                <div className="text-white/50 text-sm">
-                  click again
-                </div>
-              </div>
-            </>
-          )}
-
-          {/* Step 2: Multiple points */}
-          {step === 2 && (
-            <>
-              <svg className="absolute inset-0 w-full h-full pointer-events-none">
-                {points.slice(0, -1).map((point, i) => (
-                  <line
-                    key={i}
-                    x1={point.x}
-                    y1={point.y}
-                    x2={points[i + 1].x}
-                    y2={points[i + 1].y}
-                    stroke="#39FF14"
-                    strokeWidth="2"
-                    opacity="0.4"
-                  />
-                ))}
-              </svg>
               {points.map((point, i) => (
                 <div key={i}>
+                  <div className="absolute w-6 h-6 rounded-full" style={pointStyle(point, i)} />
                   <div
-                    className="absolute w-5 h-5 rounded-full"
+                    className="absolute text-sm mono font-semibold"
                     style={{
-                      left: point.x - 10,
-                      top: point.y - 10,
-                      backgroundColor: '#39FF14',
-                      boxShadow: '0 0 20px rgba(57, 255, 20, 0.6)'
-                    }}
-                  />
-                  <div
-                    className="absolute text-xs text-[#39FF14] mono"
-                    style={{
-                      left: point.x + 12,
-                      top: point.y - 6,
-                      textShadow: '0 0 10px rgba(57, 255, 20, 0.8)'
+                      left: point.x + 18,
+                      top: point.y - 8,
+                      color: 'var(--aurora-cyan)',
+                      textShadow: '0 0 15px rgba(0, 245, 212, 0.8)'
                     }}
                   >
                     ({Math.round(point.x)}, {Math.round(point.y)})
                   </div>
                 </div>
               ))}
-              {points.length < 3 && (
-                <div
-                  style={{
-                    position: 'fixed',
-                    bottom: '80px',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    textAlign: 'center',
-                    pointerEvents: 'none'
-                  }}
-                >
-                  <div className="text-lg text-white">
-                    keep clicking
-                  </div>
-                </div>
+              {step === 2 && points.length >= 2 && (
+                <svg className="absolute inset-0 w-full h-full pointer-events-none">
+                  {points.slice(0, -1).map((point, i) => (
+                    <line
+                      key={i}
+                      x1={point.x}
+                      y1={point.y}
+                      x2={points[i + 1].x}
+                      y2={points[i + 1].y}
+                      stroke="var(--aurora-purple)"
+                      strokeWidth="2"
+                      opacity="0.5"
+                    />
+                  ))}
+                </svg>
               )}
             </>
           )}
 
-          {/* Step 3: Target challenge */}
+          {step === 1 && (
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', pointerEvents: 'none', width: '100%', maxWidth: '600px' }}>
+              <div className="text-2xl mb-2 serif" style={{ color: 'var(--text-primary)' }}>
+                two numbers describe where it is
+              </div>
+              <div className="text-white/50 text-sm serif italic">click again</div>
+            </div>
+          )}
+
           {step === 3 && targetPoint && (
             <>
-              {/* Target */}
               <div
-                className="absolute w-12 h-12 rounded-full border-2 border-white/30 flex items-center justify-center"
+                className="absolute w-16 h-16 rounded-full border-2 flex items-center justify-center"
                 style={{
-                  left: targetPoint.x - 24,
-                  top: targetPoint.y - 24
+                  left: targetPoint.x - 32,
+                  top: targetPoint.y - 32,
+                  borderColor: 'var(--aurora-cyan)',
+                  boxShadow: '0 0 30px rgba(0, 245, 212, 0.3)'
                 }}
               >
-                <div className="w-2 h-2 rounded-full bg-white/50" />
+                <div className="w-3 h-3 rounded-full" style={{ background: 'var(--aurora-cyan)' }} />
               </div>
               <div
-                className="absolute text-sm text-white/50 mono"
-                style={{
-                  left: targetPoint.x + 30,
-                  top: targetPoint.y - 8
-                }}
+                style={{ position: 'fixed', bottom: '80px', left: '50%', transform: 'translateX(-50%)', textAlign: 'center', pointerEvents: 'none' }}
               >
-                ({Math.round(targetPoint.x)}, {Math.round(targetPoint.y)})
-              </div>
-
-              {/* User's attempt */}
-              {points.length > 0 && points.map((point, i) => (
-                <div key={i}>
-                  <div
-                    className="absolute w-5 h-5 rounded-full"
-                    style={{
-                      left: point.x - 10,
-                      top: point.y - 10,
-                      backgroundColor: '#39FF14',
-                      boxShadow: '0 0 20px rgba(57, 255, 20, 0.6)'
-                    }}
-                  />
-                  <div
-                    className="absolute text-xs text-[#39FF14] mono"
-                    style={{
-                      left: point.x + 12,
-                      top: point.y - 6,
-                      textShadow: '0 0 10px rgba(57, 255, 20, 0.8)'
-                    }}
-                  >
-                    ({Math.round(point.x)}, {Math.round(point.y)})
-                  </div>
-                </div>
-              ))}
-
-              <div
-                style={{
-                  position: 'fixed',
-                  bottom: '80px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  textAlign: 'center',
-                  pointerEvents: 'none'
-                }}
-              >
-                <div className="text-xl text-white mb-2">
+                <div className="text-xl serif" style={{ color: 'var(--text-primary)' }}>
                   {points.length === 0 ? 'try to click inside the target' : 'close! try again'}
                 </div>
-                <div className="text-white/40 text-sm">
+                <div className="text-white/50 text-sm serif italic mt-2">
                   you describe "where" using numbers
                 </div>
               </div>
             </>
           )}
 
-          {/* Step 4: Revelation */}
           {step === 4 && (
-            <div
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                textAlign: 'center',
-                width: '100%',
-                maxWidth: '600px',
-                padding: '0 20px'
-              }}
-            >
-              <div className="text-3xl text-[#39FF14] mb-4 font-bold" style={{ textShadow: '0 0 20px rgba(57, 255, 20, 0.6)' }}>
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', width: '100%', maxWidth: '600px', padding: '0 20px' }}>
+              <div className="text-4xl mb-4 font-light serif aurora-glow" style={{ color: 'var(--aurora-pink)' }}>
                 location IS numbers
               </div>
-              <div className="text-xl text-white/70 mb-4">
+              <div className="text-xl text-white/70 mb-4 serif italic">
                 you can't describe where without them
               </div>
-              <div className="text-white/40 text-sm">
-                click to continue
-              </div>
+              <div className="text-white/40 text-sm">click to continue</div>
             </div>
           )}
         </>
@@ -484,38 +384,29 @@ export default function Intro({ onComplete }: IntroProps) {
         <>
           {step === 0 && (
             <>
-              {/* Circle center */}
               <div
-                className="absolute w-3 h-3 rounded-full bg-white/40"
+                className="absolute w-4 h-4 rounded-full"
                 style={{
-                  left: circleCenter.x - 6,
-                  top: circleCenter.y - 6
+                  left: circleCenter.x - 8,
+                  top: circleCenter.y - 8,
+                  background: 'var(--aurora-cyan)',
+                  boxShadow: '0 0 20px var(--aurora-cyan)'
                 }}
               />
-              {/* Guide circle */}
               <div
-                className="absolute rounded-full border border-white/20"
+                className="absolute rounded-full border-2"
                 style={{
                   left: circleCenter.x - circleRadius,
                   top: circleCenter.y - circleRadius,
                   width: circleRadius * 2,
-                  height: circleRadius * 2
+                  height: circleRadius * 2,
+                  borderColor: 'rgba(255, 111, 242, 0.4)',
+                  boxShadow: '0 0 30px rgba(255, 111, 242, 0.2)'
                 }}
               />
-              {/* Points placed */}
               {points.map((point, i) => (
-                <div
-                  key={i}
-                  className="absolute w-4 h-4 rounded-full"
-                  style={{
-                    left: point.x - 8,
-                    top: point.y - 8,
-                    backgroundColor: '#39FF14',
-                    boxShadow: '0 0 20px rgba(57, 255, 20, 0.6)'
-                  }}
-                />
+                <div key={i} className="absolute w-5 h-5 rounded-full" style={pointStyle(point, i)} />
               ))}
-              {/* Connect the dots */}
               {points.length >= 2 && (
                 <svg className="absolute inset-0 w-full h-full pointer-events-none">
                   {points.map((point, i) => (
@@ -525,28 +416,18 @@ export default function Intro({ onComplete }: IntroProps) {
                       y1={point.y}
                       x2={points[(i + 1) % points.length].x}
                       y2={points[(i + 1) % points.length].y}
-                      stroke="#39FF14"
+                      stroke="var(--aurora-purple)"
                       strokeWidth="2"
-                      opacity="0.5"
+                      opacity="0.6"
                     />
                   ))}
                 </svg>
               )}
-              <div
-                style={{
-                  position: 'fixed',
-                  bottom: '80px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  textAlign: 'center',
-                  pointerEvents: 'none',
-                  maxWidth: '600px'
-                }}
-              >
-                <div className="text-xl text-white mb-2">
+              <div style={{ position: 'fixed', bottom: '80px', left: '50%', transform: 'translateX(-50%)', textAlign: 'center', pointerEvents: 'none', maxWidth: '600px' }}>
+                <div className="text-xl serif mb-2" style={{ color: 'var(--text-primary)' }}>
                   place {6 - points.length} more dots on the circle
                 </div>
-                <div className="text-white/50 text-sm">
+                <div className="text-white/50 text-sm serif italic">
                   all points must be the same distance from the center
                 </div>
               </div>
@@ -555,39 +436,31 @@ export default function Intro({ onComplete }: IntroProps) {
 
           {step === 1 && (
             <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', width: '100%', maxWidth: '600px', padding: '0 20px' }}>
-              <div className="text-center max-w-lg">
-                <div className="text-2xl text-white mb-4">
-                  a circle isn't a shape you draw
-                </div>
-                <div className="text-3xl text-[#39FF14] mb-4 font-bold" style={{ textShadow: '0 0 20px rgba(57, 255, 20, 0.6)' }}>
-                  it's a rule
-                </div>
-                <div className="text-lg text-white/70 mb-2">
-                  "all points exactly distance r from center"
-                </div>
-                <div className="text-white/40 text-sm mono mt-6">
-                  x² + y² = r²
-                </div>
-                <div className="text-white/30 text-sm mt-8">
-                  click to continue
-                </div>
+              <div className="text-2xl mb-4 serif" style={{ color: 'var(--text-primary)' }}>
+                a circle isn't a shape you draw
               </div>
+              <div className="text-4xl mb-4 font-light serif aurora-glow" style={{ color: 'var(--aurora-pink)' }}>
+                it's a rule
+              </div>
+              <div className="text-lg text-white/70 mb-2 serif italic">
+                "all points exactly distance r from center"
+              </div>
+              <div className="text-white/50 text-sm mono mt-6">
+                x² + y² = r²
+              </div>
+              <div className="text-white/30 text-sm mt-8">click to continue</div>
             </div>
           )}
 
           {step === 2 && (
             <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', width: '100%', maxWidth: '600px', padding: '0 20px' }}>
-              <div className="text-center max-w-lg">
-                <div className="text-2xl text-[#39FF14] mb-4 font-bold" style={{ textShadow: '0 0 20px rgba(57, 255, 20, 0.6)' }}>
-                  shapes are rules about numbers
-                </div>
-                <div className="text-lg text-white/70">
-                  lines, triangles, stars - all just number patterns
-                </div>
-                <div className="text-white/30 text-sm mt-8">
-                  click to continue
-                </div>
+              <div className="text-3xl mb-4 font-light serif aurora-glow" style={{ color: 'var(--aurora-pink)' }}>
+                shapes are rules about numbers
               </div>
+              <div className="text-lg text-white/70 serif italic">
+                lines, triangles, stars - all just number patterns
+              </div>
+              <div className="text-white/30 text-sm mt-8">click to continue</div>
             </div>
           )}
         </>
@@ -598,20 +471,14 @@ export default function Intro({ onComplete }: IntroProps) {
         <>
           {step === 0 && (
             <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', width: '100%', maxWidth: '600px', padding: '0 20px' }}>
-              <div className="text-center max-w-lg">
-                <div className="text-2xl text-white mb-4">
-                  what if you did the same thing
-                </div>
-                <div className="text-3xl text-[#39FF14] mb-4 font-bold" style={{ textShadow: '0 0 20px rgba(57, 255, 20, 0.6)' }}>
-                  again and again
-                </div>
-                <div className="text-lg text-white/70">
-                  smaller each time
-                </div>
-                <div className="text-white/30 text-sm mt-8">
-                  click to see
-                </div>
+              <div className="text-2xl mb-4 serif" style={{ color: 'var(--text-primary)' }}>
+                what if you did the same thing
               </div>
+              <div className="text-4xl mb-4 font-light serif aurora-glow" style={{ color: 'var(--aurora-pink)' }}>
+                again and again
+              </div>
+              <div className="text-lg text-white/70 serif italic">smaller each time</div>
+              <div className="text-white/30 text-sm mt-8">click to see</div>
             </div>
           )}
 
@@ -623,21 +490,12 @@ export default function Intro({ onComplete }: IntroProps) {
                 height={600}
                 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
               />
-              <div
-                style={{
-                  position: 'fixed',
-                  bottom: '80px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: '256px',
-                  pointerEvents: 'none'
-                }}
-              >
+              <div style={{ position: 'fixed', bottom: '80px', left: '50%', transform: 'translateX(-50%)', width: '280px', pointerEvents: 'none' }}>
                 <div className="text-center mb-4">
-                  <div className="text-lg text-white mb-2">
+                  <div className="text-lg serif mb-2" style={{ color: 'var(--text-primary)' }}>
                     drag to change the angle
                   </div>
-                  <div className="text-[#39FF14] mono text-sm">
+                  <div className="mono text-sm" style={{ color: 'var(--aurora-cyan)' }}>
                     {fractalAngle}°
                   </div>
                 </div>
@@ -653,39 +511,22 @@ export default function Intro({ onComplete }: IntroProps) {
                   style={{ pointerEvents: 'auto' }}
                 />
               </div>
-              <div
-                style={{
-                  position: 'fixed',
-                  top: '128px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  textAlign: 'center',
-                  pointerEvents: 'none'
-                }}
-              >
-                <div className="text-white/50 text-sm">
-                  click when ready
-                </div>
+              <div style={{ position: 'fixed', top: '128px', left: '50%', transform: 'translateX(-50%)', textAlign: 'center', pointerEvents: 'none' }}>
+                <div className="text-white/50 text-sm serif italic">click when ready</div>
               </div>
             </>
           )}
 
           {step === 2 && (
             <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', width: '100%', maxWidth: '600px', padding: '0 20px' }}>
-              <div className="text-center max-w-lg">
-                <div className="text-3xl text-[#39FF14] mb-4 font-bold" style={{ textShadow: '0 0 20px rgba(57, 255, 20, 0.6)' }}>
-                  recursion
-                </div>
-                <div className="text-xl text-white/70 mb-2">
-                  simple rules create complex patterns
-                </div>
-                <div className="text-white/40 text-sm">
-                  this is how fractals work
-                </div>
-                <div className="text-white/30 text-sm mt-8">
-                  click to continue
-                </div>
+              <div className="text-4xl mb-4 font-light serif aurora-glow" style={{ color: 'var(--aurora-pink)' }}>
+                recursion
               </div>
+              <div className="text-xl text-white/70 mb-2 serif italic">
+                simple rules create complex patterns
+              </div>
+              <div className="text-white/50 text-sm">this is how fractals work</div>
+              <div className="text-white/30 text-sm mt-8">click to continue</div>
             </div>
           )}
         </>
@@ -703,20 +544,13 @@ export default function Intro({ onComplete }: IntroProps) {
                 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
               />
               <div
-                style={{
-                  position: 'fixed',
-                  bottom: '80px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  textAlign: 'center',
-                  pointerEvents: 'auto'
-                }}
+                style={{ position: 'fixed', bottom: '80px', left: '50%', transform: 'translateX(-50%)', textAlign: 'center', pointerEvents: 'auto' }}
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="text-xl text-white mb-4">
+                <div className="text-xl serif mb-4" style={{ color: 'var(--text-primary)' }}>
                   numbers describe position
                 </div>
-                <div className="text-2xl text-[#39FF14] mb-6 font-bold" style={{ textShadow: '0 0 20px rgba(57, 255, 20, 0.6)' }}>
+                <div className="text-3xl mb-6 font-light serif aurora-glow" style={{ color: 'var(--aurora-pink)' }}>
                   they describe color too
                 </div>
                 <div className="flex gap-4 justify-center items-center">
@@ -725,9 +559,9 @@ export default function Intro({ onComplete }: IntroProps) {
                       type="color"
                       value={color1}
                       onChange={(e) => setColor1(e.target.value)}
-                      className="w-16 h-16 cursor-pointer"
+                      className="cursor-pointer"
                     />
-                    <div className="text-xs text-white/40 mt-2 mono">start</div>
+                    <div className="text-xs text-white/50 mt-2 mono tracking-wider">ROOT</div>
                   </div>
                   <div className="text-white/50">→</div>
                   <div>
@@ -735,48 +569,31 @@ export default function Intro({ onComplete }: IntroProps) {
                       type="color"
                       value={color2}
                       onChange={(e) => setColor2(e.target.value)}
-                      className="w-16 h-16 cursor-pointer"
+                      className="cursor-pointer"
                     />
-                    <div className="text-xs text-white/40 mt-2 mono">end</div>
+                    <div className="text-xs text-white/50 mt-2 mono tracking-wider">TIPS</div>
                   </div>
                 </div>
-                <div className="text-white/40 text-sm mt-6">
+                <div className="text-white/50 text-sm serif italic mt-6">
                   each branch depth gets a different color
                 </div>
               </div>
-              <div
-                style={{
-                  position: 'fixed',
-                  top: '128px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  textAlign: 'center',
-                  pointerEvents: 'none'
-                }}
-              >
-                <div className="text-white/50 text-sm">
-                  click when ready
-                </div>
+              <div style={{ position: 'fixed', top: '128px', left: '50%', transform: 'translateX(-50%)', textAlign: 'center', pointerEvents: 'none' }}>
+                <div className="text-white/50 text-sm serif italic">click when ready</div>
               </div>
             </>
           )}
 
           {step === 1 && (
             <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', width: '100%', maxWidth: '600px', padding: '0 20px' }}>
-              <div className="text-center max-w-lg">
-                <div className="text-3xl text-[#39FF14] mb-4 font-bold" style={{ textShadow: '0 0 20px rgba(57, 255, 20, 0.6)' }}>
-                  you're ready
-                </div>
-                <div className="text-xl text-white/70 mb-4">
-                  coordinates, shapes, recursion, color
-                </div>
-                <div className="text-lg text-white/50">
-                  now create something
-                </div>
-                <div className="text-white/30 text-sm mt-8">
-                  click to begin
-                </div>
+              <div className="text-4xl mb-4 font-light serif aurora-glow" style={{ color: 'var(--aurora-pink)' }}>
+                you're ready
               </div>
+              <div className="text-xl text-white/70 mb-4 serif italic">
+                coordinates, shapes, recursion, color
+              </div>
+              <div className="text-lg text-white/50 serif">now create something</div>
+              <div className="text-white/30 text-sm mt-8">click to begin</div>
             </div>
           )}
         </>

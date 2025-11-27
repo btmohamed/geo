@@ -32,40 +32,56 @@ function Controls() {
 
   const gradientStyle = useMemo(() => ({
     background: `linear-gradient(90deg, ${color}, ${colorEnd})`,
-    border: '2px solid rgba(57, 255, 20, 0.3)',
-    boxShadow: '0 0 10px rgba(57, 255, 20, 0.2)'
+    border: '2px solid rgba(255, 111, 242, 0.35)',
+    boxShadow: '0 0 20px rgba(255, 111, 242, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.1)'
   }), [color, colorEnd]);
 
   return (
     <div
       style={{
         position: 'fixed',
-        bottom: '32px',
+        bottom: '40px',
         left: '50%',
         transform: 'translateX(-50%)',
         zIndex: 10
       }}
     >
       <div
-        className="bg-black/80 backdrop-blur-sm rounded-lg p-6 border border-[#39FF14]/30"
+        className="backdrop-blur-md rounded-2xl p-8 border-2"
         role="region"
         aria-label="Fractal controls"
         style={{
-          boxShadow: '0 0 40px rgba(0, 0, 0, 0.9), 0 0 2px rgba(57, 255, 20, 0.5)',
-          minWidth: '400px'
+          background: 'linear-gradient(135deg, rgba(20, 16, 35, 0.9) 0%, rgba(10, 6, 18, 0.95) 100%)',
+          borderColor: 'rgba(255, 111, 242, 0.3)',
+          boxShadow: `
+            0 20px 60px rgba(0, 0, 0, 0.6),
+            0 0 40px rgba(255, 111, 242, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.3)
+          `,
+          minWidth: '560px'
         }}
       >
-        <div className="space-y-6">
+        <div className="space-y-7">
           {/* Branch Angle */}
           <div>
-            <div className="flex justify-between items-center mb-3">
+            <div className="flex justify-between items-center mb-4">
               <div>
-                <label htmlFor="angle-slider" className="text-sm text-white/70 mono">
-                  branch angle
+                <label htmlFor="angle-slider" className="text-base mono font-medium" style={{ color: 'var(--aurora-cyan)' }}>
+                  BRANCH ANGLE
                 </label>
-                <div className="text-xs text-white/40 mt-0.5">how wide the tree spreads</div>
+                <div className="text-xs text-white/50 mt-1.5 serif italic">how wide the tree spreads</div>
               </div>
-              <span className="text-base text-[#39FF14] mono font-bold" aria-live="polite">
+              <span
+                className="text-2xl mono font-bold"
+                style={{
+                  background: 'linear-gradient(135deg, var(--aurora-pink), var(--aurora-purple))',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}
+                aria-live="polite"
+              >
                 {angle.toFixed(1)}°
               </span>
             </div>
@@ -87,14 +103,23 @@ function Controls() {
 
           {/* Scale Factor */}
           <div>
-            <div className="flex justify-between items-center mb-3">
+            <div className="flex justify-between items-center mb-4">
               <div>
-                <label htmlFor="scale-slider" className="text-sm text-white/70 mono">
-                  scale factor
+                <label htmlFor="scale-slider" className="text-base mono font-medium" style={{ color: 'var(--aurora-cyan)' }}>
+                  SCALE FACTOR
                 </label>
-                <div className="text-xs text-white/40 mt-0.5">how much smaller each branch gets</div>
+                <div className="text-xs text-white/50 mt-1.5 serif italic">how much smaller each branch gets</div>
               </div>
-              <span className="text-base text-[#39FF14] mono font-bold" aria-live="polite">
+              <span
+                className="text-2xl mono font-bold"
+                style={{
+                  background: 'linear-gradient(135deg, var(--aurora-pink), var(--aurora-purple))',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}
+                aria-live="polite"
+              >
                 {scaleFactor.toFixed(2)}
               </span>
             </div>
@@ -116,14 +141,23 @@ function Controls() {
 
           {/* Depth */}
           <div>
-            <div className="flex justify-between items-center mb-3">
+            <div className="flex justify-between items-center mb-4">
               <div>
-                <label htmlFor="depth-slider" className="text-sm text-white/70 mono">
-                  recursion depth
+                <label htmlFor="depth-slider" className="text-base mono font-medium" style={{ color: 'var(--aurora-cyan)' }}>
+                  RECURSION DEPTH
                 </label>
-                <div className="text-xs text-white/40 mt-0.5">how many times to repeat</div>
+                <div className="text-xs text-white/50 mt-1.5 serif italic">how many times to repeat</div>
               </div>
-              <span className="text-base text-[#39FF14] mono font-bold" aria-live="polite">
+              <span
+                className="text-2xl mono font-bold"
+                style={{
+                  background: 'linear-gradient(135deg, var(--aurora-pink), var(--aurora-purple))',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}
+                aria-live="polite"
+              >
                 {depth}
               </span>
             </div>
@@ -144,12 +178,12 @@ function Controls() {
           </div>
 
           {/* Colors */}
-          <div>
-            <label className="text-sm text-white/70 mono mb-3 block">
-              color gradient
-              <span className="text-xs text-white/40 ml-2">root to tips</span>
+          <div className="pt-3">
+            <label className="text-base mono font-medium mb-4 block" style={{ color: 'var(--aurora-cyan)' }}>
+              COLOR SPECTRUM
+              <span className="text-xs text-white/50 ml-3 serif italic font-normal">root to tips</span>
             </label>
-            <div className="flex gap-3 items-center">
+            <div className="flex gap-4 items-center">
               <div className="flex flex-col gap-2">
                 <label htmlFor="color-start" className="sr-only">
                   Start color (root)
@@ -159,18 +193,27 @@ function Controls() {
                   type="color"
                   value={color}
                   onChange={(e) => setColor(e.target.value)}
-                  className="cursor-pointer w-14 h-14"
+                  className="cursor-pointer"
                   aria-label="Start color for fractal gradient"
                 />
-                <span className="text-xs text-white/40 mono text-center">start</span>
+                <span className="text-xs text-white/50 mono text-center tracking-wider">ROOT</span>
               </div>
 
               <div
-                className="flex-1 h-14 rounded-lg"
+                className="flex-1 h-16 rounded-xl relative overflow-hidden"
                 role="presentation"
                 aria-hidden="true"
                 style={gradientStyle}
-              />
+              >
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)',
+                    animation: 'shimmer 3s ease-in-out infinite'
+                  }}
+                />
+              </div>
 
               <div className="flex flex-col gap-2">
                 <label htmlFor="color-end" className="sr-only">
@@ -181,18 +224,18 @@ function Controls() {
                   type="color"
                   value={colorEnd}
                   onChange={(e) => setColorEnd(e.target.value)}
-                  className="cursor-pointer w-14 h-14"
+                  className="cursor-pointer"
                   aria-label="End color for fractal gradient"
                 />
-                <span className="text-xs text-white/40 mono text-center">end</span>
+                <span className="text-xs text-white/50 mono text-center tracking-wider">TIPS</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Quick tip */}
-        <div className="mt-4 pt-4 border-t border-white/10 text-xs text-white/30 mono text-center">
-          tip: try angle=25°, scale=0.67, depth=10 for a classic tree
+        <div className="mt-6 pt-6 border-t border-white/10 text-xs text-white/40 serif italic text-center">
+          Laboratory preset: angle 25° • scale 0.67 • depth 10
         </div>
       </div>
     </div>
